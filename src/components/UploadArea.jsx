@@ -24,7 +24,7 @@ export default function UploadArea({ onUpload, isLoading }) {
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-          <span className="text-lg">📤</span>
+          <i className="fas fa-upload text-blue-500"></i>
           上传图片
         </h3>
         <div className="flex gap-2">
@@ -36,7 +36,7 @@ export default function UploadArea({ onUpload, isLoading }) {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <span>📐</span>
+            <i className="fas fa-arrows-alt"></i>
             横屏
           </button>
           <button
@@ -47,7 +47,7 @@ export default function UploadArea({ onUpload, isLoading }) {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <span>📱</span>
+            <i className="fas fa-mobile-alt"></i>
             竖屏
           </button>
         </div>
@@ -64,7 +64,7 @@ export default function UploadArea({ onUpload, isLoading }) {
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
       >
-        <span className="text-4xl text-gray-400 mb-3 block">📤</span>
+        <i className="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-3 block"></i>
         <p className="text-gray-600 mb-1">点击或拖拽图片到此处上传</p>
         <p className="text-xs text-gray-400">支持 JPG、PNG、WebP、GIF | 大图自动压缩</p>
         <p className="text-xs text-blue-500 mt-2">
