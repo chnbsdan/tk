@@ -13,11 +13,17 @@ export default function UploadArea({ onUpload, isLoading }) {
 
   const handleDrop = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     setDragOver(false)
     const files = e.dataTransfer.files
     if (files.length > 0) {
       onUpload(files, folder)
     }
+  }
+
+  const handleClick = (e) => {
+    e.stopPropagation()
+    fileInputRef.current?.click()
   }
 
   return (
@@ -29,7 +35,7 @@ export default function UploadArea({ onUpload, isLoading }) {
         </h3>
         <div className="flex gap-2">
           <button
-            onClick={() => setFolder('wallpaper')}
+            onClick={(e) => { e.stopPropagation(); setFolder('wallpaper') }}
             className={`px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
               folder === 'wallpaper'
                 ? 'bg-blue-600 text-white shadow-md'
@@ -40,7 +46,7 @@ export default function UploadArea({ onUpload, isLoading }) {
             横屏
           </button>
           <button
-            onClick={() => setFolder('cover')}
+            onClick={(e) => { e.stopPropagation(); setFolder('cover') }}
             className={`px-3 py-1.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
               folder === 'cover'
                 ? 'bg-purple-600 text-white shadow-md'
@@ -59,8 +65,8 @@ export default function UploadArea({ onUpload, isLoading }) {
             ? 'border-blue-500 bg-blue-50'
             : 'border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50/50'
         }`}
-        onClick={() => fileInputRef.current?.click()}
-        onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+        onClick={handleClick}
+        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setDragOver(true) }}
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
       >
