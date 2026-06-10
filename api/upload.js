@@ -1,4 +1,4 @@
-// api/upload.js
+// api/upload.js - 支持 AVIF 格式
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN
   const GITHUB_USER = process.env.GITHUB_USER || 'chnbsdan'
-  const GITHUB_REPO = process.env.GITHUB_REPO || 'imgbed'
+  const GITHUB_REPO = process.env.GITHUB_REPO || 'imgbed-storage'
   
   if (!GITHUB_TOKEN) return res.status(500).json({ error: 'GITHUB_TOKEN missing' })
   
@@ -28,12 +28,15 @@ export default async function handler(req, res) {
     if (file.size > 10 * 1024 * 1024) return res.status(400).json({ error: 'File too large' })
     
     const ext = file.filename.split('.').pop().toLowerCase()
+    // ⬇️ 关键：添加 avif 支持
     if (!['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'].includes(ext)) {
       return res.status(400).json({ error: 'Unsupported file format' })
     }
     
     const now = new Date()
-    const datePrefix = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0')
+    const datePrefix = now.getFullYear() + 
+                       String(now.getMonth() + 1).padStart(2, '0') + 
+                       String(now.getDate()).padStart(2, '0')
     const originalName = file.filename.replace(/\.[^/.]+$/, '')
     const safeName = originalName.replace(/[^a-zA-Z0-9\u4e00-\u9fa5_-]/g, '_')
     const filename = `${datePrefix}_${safeName}.${ext}`
