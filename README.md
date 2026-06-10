@@ -1,5 +1,3 @@
-## 基于 **Vercel + GitHub 私有仓库** 的独立图床服务，采用 React + Tailwind CSS 构建现代化管理界面。
-
 # ImgBed - 现代化个人图床
 
 基于 **Vercel + GitHub 私有仓库** 的独立图床服务，采用 React + Tailwind CSS 构建现代化管理界面。
@@ -15,7 +13,7 @@
 - 📋 **图片列表** - 提供 `/api/list` 接口查看所有图片
 - 📦 **JSON 格式** - 提供 `/api/json` 接口返回随机图片的 JSON 信息
 - 🎨 **自动压缩** - 大图片自动压缩至 3MB 以内，确保上传成功
-- 🚀 **现代化界面** - React + Tailwind CSS + shadcn/ui 风格
+- 🚀 **现代化界面** - React + Tailwind CSS + 毛玻璃效果
 
 ## 📁 项目结构
 
@@ -33,24 +31,20 @@ imgbed/
 │   └── upload.js              # 图片上传接口
 ├── src/                       # React 前端源码
 │   ├── components/            # UI 组件
-│   │   ├── Header.jsx
-│   │   ├── StatsCard.jsx
-│   │   ├── ApiSection.jsx
-│   │   ├── UploadArea.jsx
-│   │   ├── UploadResult.jsx
-│   │   └── Footer.jsx
 │   ├── lib/
 │   │   └── api.js             # API 调用封装
 │   ├── App.jsx                # 主应用
 │   ├── main.jsx               # 入口文件
 │   └── index.css              # 全局样式
-├── index.html                 # HTML 模板
-├── package.json               # 依赖配置
-├── vite.config.js             # Vite 配置
-├── tailwind.config.js         # Tailwind CSS 配置
-├── postcss.config.js          # PostCSS 配置
-├── vercel.json                # Vercel 路由配置
-└── README.md                  # 项目说明
+├── public/
+│   └── favicon.ico            # 网站图标
+├── index.html
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── vercel.json
+└── README.md
 ```
 
 ## 📡 API 接口
@@ -67,64 +61,68 @@ imgbed/
 | `/wallpaper/:filename` | GET | 代理访问横屏图片 |
 | `/cover/:filename` | GET | 代理访问竖屏图片 |
 
-### 使用示例
+## 🔧 用户需要修改的内容
 
-```bash
-# 随机获取图片
-curl https://imgbed.vercel.app/api/random
+### 1. 修改 GitHub 配置（必改）
 
-# 随机获取横屏图片
-curl https://imgbed.vercel.app/api/wallpaper
+在以下文件中，将默认的 GitHub 用户名和仓库名改为你自己的：
 
-# 随机获取竖屏图片
-curl https://imgbed.vercel.app/api/cover
+| 文件 | 位置 | 修改内容 |
+|------|------|----------|
+| `api/random.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/wallpaper.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/cover.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/json.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/list.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/stats.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/upload.js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
+| `api/img/[filename].js` | 第 1-3 行 | `GITHUB_USER`、`GITHUB_REPO` |
 
-# 获取 JSON 格式
-curl https://imgbed.vercel.app/api/json
+**修改示例：**
+```javascript
+// 原代码
+const GITHUB_USER = process.env.GITHUB_USER || 'chnbsdan'
+const GITHUB_REPO = process.env.GITHUB_REPO || 'imgbed-storage'
 
-# 获取统计信息
-curl https://imgbed.vercel.app/api/stats
-
-# 获取图片列表
-curl https://imgbed.vercel.app/api/list
-
-# 上传图片
-curl -X POST -F "file=@image.jpg" -F "folder=wallpaper" https://imgbed.vercel.app/api/upload
-
-# 直接访问图片
-https://imgbed.vercel.app/wallpaper/20260610_image.jpg
+// 改为你自己的
+const GITHUB_USER = process.env.GITHUB_USER || '你的GitHub用户名'
+const GITHUB_REPO = process.env.GITHUB_REPO || '你的图片仓库名'
 ```
 
-### JSON 返回示例
+### 2. 修改左上角 LOGO 链接（可选）
 
-```json
-{
-  "code": "200",
-  "imgurl": "https://imgbed.vercel.app/api/random",
-  "source": "https://raw.githubusercontent.com/chnbsdan/imgbed-storage/main/wallpaper/20260610_image.jpg",
-  "filename": "20260610_image.jpg",
-  "id": "20260610_image",
-  "total": 38
-}
+在 `src/App.jsx` 中找到 LOGO 链接部分：
+
+```jsx
+<a 
+  href="https://github.com/chnbsdan/imgbed" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  ...
+>
 ```
 
-### 统计返回示例
+将 `href` 改为你的 GitHub 仓库地址。
 
-```json
-{
-  "github_folders": {
-    "wallpaper": 33,
-    "cover": 5
-  },
-  "github_total": 38,
-  "external_total": 0,
-  "grand_total": 38
-}
+### 3. 修改页面标题（可选）
+
+在 `index.html` 中修改 `<title>` 标签：
+
+```html
+<title>你的图床名称</title>
 ```
 
-## 🔧 环境变量
+### 4. 修改网站图标（可选）
 
-在 Vercel 项目设置中配置以下环境变量：
+替换 `public/favicon.ico` 文件为你自己的图标。
+
+### 5. 修改 API 帮助页面的示例域名（可选）
+
+在 `index.html` 中，将示例 URL 改为你的实际域名。
+
+## 🔧 环境变量配置（Vercel 中必须设置）
+
+在 Vercel 项目设置中添加以下环境变量：
 
 | 变量名 | 说明 | 必填 |
 |--------|------|------|
@@ -132,7 +130,7 @@ https://imgbed.vercel.app/wallpaper/20260610_image.jpg
 | `GITHUB_USER` | GitHub 用户名 | 可选（默认 chnbsdan） |
 | `GITHUB_REPO` | 存储图片的仓库名 | 可选（默认 imgbed-storage） |
 
-### 获取 GitHub Token
+### 获取 GitHub Token 步骤
 
 1. 访问 GitHub → Settings → Developer settings → Personal access tokens
 2. 点击 **Generate new token (classic)**
@@ -143,7 +141,7 @@ https://imgbed.vercel.app/wallpaper/20260610_image.jpg
 
 ### 1. 创建 GitHub 存储仓库
 
-创建一个新的私有仓库用于存储图片，例如 `imgbed-storage`：
+创建一个新的私有仓库用于存储图片，例如 `imgbed-storage`，并创建两个文件夹：
 
 ```
 imgbed-storage/
@@ -151,7 +149,7 @@ imgbed-storage/
 └── cover/       # 竖屏图片存放目录
 ```
 
-### 2. 克隆本项目
+### 2. Fork 或克隆本项目
 
 ```bash
 git clone https://github.com/chnbsdan/imgbed.git
@@ -164,7 +162,7 @@ cd imgbed
 npm install
 ```
 
-### 4. 本地开发
+### 4. 本地开发测试
 
 ```bash
 npm run dev
@@ -172,61 +170,36 @@ npm run dev
 
 ### 5. 部署到 Vercel
 
-```bash
-# 安装 Vercel CLI
-npm install -g vercel
+**方法一：使用 Vercel CLI**
 
-# 部署
+```bash
+npm install -g vercel
 vercel --prod
 ```
 
-或在 Vercel 官网导入 GitHub 仓库：
+**方法二：通过 Vercel 网页**
 
 1. 访问 [Vercel](https://vercel.com)
 2. 点击 **Add New** → **Project**
-3. 导入 `imgbed` 仓库
+3. 导入你的 GitHub 仓库
 4. 在 **Environment Variables** 中添加 `GITHUB_TOKEN`
 5. 点击 **Deploy**
 
 ### 6. 绑定自定义域名（可选）
 
 1. 在 Vercel 项目设置中进入 **Domains**
-2. 添加你的域名（如 `imgbed.example.com`）
+2. 添加你的域名
 3. 按提示配置 DNS 解析
 
-## 🎨 前端页面
+## 🎨 界面效果
 
-访问部署后的域名即可看到管理界面：
-
-- 📊 实时统计卡片（总数、横屏、竖屏）
-- 🔗 API 接口地址展示（一键复制）
-- 📤 分类上传（横屏/竖屏选择）
-- 🖼️ 批量上传（拖拽或点击）
-- 📋 上传结果展示（链接复制、图片预览）
-
-## 📝 图片命名规则
-
-上传后的图片会按以下格式命名：
-
-```
-日期_原文件名.扩展名
-```
-
-示例：`20260610_风景照片.jpg`
-
-- 日期格式：`YYYYMMDD`
-- 原文件名中的特殊字符会被替换为 `_`
-- PNG 大图会自动转换为 JPG 格式
-
-## 🔗 图片访问方式
-
-| 方式 | 地址 | 说明 |
-|------|------|------|
-| 随机接口 | `/api/random` | 每次返回不同图片 |
-| 横屏接口 | `/api/wallpaper` | 仅返回横屏图片 |
-| 竖屏接口 | `/api/cover` | 仅返回竖屏图片 |
-| 代理访问 | `/wallpaper/文件名.jpg` | 直接访问特定图片 |
-| 代理访问 | `/cover/文件名.jpg` | 直接访问特定图片 |
+- 🖼️ **随机背景** - 每次刷新页面，背景随机变化
+- 🔗 **左上角 LOGO** - 点击跳转 GitHub 仓库
+- 📊 **统计卡片** - 实时显示各类图片数量
+- 📤 **分类上传** - 支持横屏/竖屏选择
+- 🖱️ **一键复制** - 点击复制图片链接
+- 👁️ **图片预览** - 上传后可直接预览
+- 🌫️ **毛玻璃效果** - 卡片区域采用毛玻璃设计
 
 ## ⚠️ 注意事项
 
@@ -236,24 +209,33 @@ vercel --prod
 4. **支持格式** - JPG、PNG、WebP、GIF（PNG 大图会转为 JPG）
 5. **API 限制** - GitHub API 限制 5000 次/小时（已认证）
 
-## 📊 限制说明
+## 📝 常见问题
 
-| 限制类型 | 限制值 | 说明 |
-|----------|--------|------|
-| 单张图片大小 | ~4.5 MB | Vercel 免费版 Function 限制 |
-| 批量上传总大小 | ~4.5 MB | 多张图片总大小限制 |
-| 自动压缩阈值 | 3 MB | 超过此大小自动压缩 |
-| 压缩质量 | 85%-60% | 动态调整，保证上传成功 |
+### Q: 上传失败怎么办？
+
+A: 检查 Vercel 环境变量 `GITHUB_TOKEN` 是否正确配置，Token 是否有 `repo` 权限。
+
+### Q: 图片无法显示？
+
+A: 检查 `api/img/[filename].js` 中的 `GITHUB_USER` 和 `GITHUB_REPO` 是否正确。
+
+### Q: 如何修改卡片毛玻璃效果？
+
+A: 在 `src/App.jsx` 中找到 `backdrop-blur-md bg-white/30`，调整数值即可。
+
+### Q: 如何修改左上角 LOGO 大小？
+
+A: 在 `src/App.jsx` 中修改 `w-10 h-10` 为其他值（如 `w-12 h-12`）。
 
 ## 🛠️ 技术栈
 
 | 技术 | 说明 |
 |------|------|
-| **前端** | React 18 + Vite + Tailwind CSS |
-| **图标** | Lucide React |
-| **后端** | Vercel Serverless Functions |
-| **存储** | GitHub 私有仓库 |
-| **API** | GitHub REST API |
+| 前端 | React 18 + Vite + Tailwind CSS |
+| 图标 | Font Awesome 6 |
+| 后端 | Vercel Serverless Functions |
+| 存储 | GitHub 私有仓库 |
+| API | GitHub REST API |
 
 ## 📄 许可证
 
@@ -273,5 +255,3 @@ MIT License
 ---
 
 如果觉得这个项目有用，欢迎 Star ⭐
-
-
