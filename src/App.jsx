@@ -134,7 +134,7 @@ function App() {
   return (
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <Header />
+        <Header onRefreshBg={setRandomBackground} />
         <div className="space-y-6">
           <StatsCard stats={stats} />
           <ApiSection />
