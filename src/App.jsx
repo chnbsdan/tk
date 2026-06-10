@@ -12,11 +12,22 @@ function App() {
   const [uploadResults, setUploadResults] = useState([])
   const [isUploading, setIsUploading] = useState(false)
 
+  // 设置随机背景
+  const setRandomBackground = useCallback(() => {
+    const img = new Image()
+    const url = `/api/random?t=${Date.now()}`
+    img.onload = () => {
+      document.body.style.backgroundImage = `url(${url})`
+    }
+    img.src = url
+  }, [])
+
   useEffect(() => {
     loadStats()
+    setRandomBackground()
     const interval = setInterval(loadStats, 30000)
     return () => clearInterval(interval)
-  }, [])
+  }, [setRandomBackground])
 
   const loadStats = async () => {
     try {
