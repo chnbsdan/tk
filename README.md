@@ -1,5 +1,5 @@
 ## 基于 **Vercel + GitHub 私有仓库** 的独立图床服务，采用 React + Tailwind CSS 构建现代化管理界面。
-```markdown
+
 # ImgBed - 现代化个人图床
 
 基于 **Vercel + GitHub 私有仓库** 的独立图床服务，采用 React + Tailwind CSS 构建现代化管理界面。
