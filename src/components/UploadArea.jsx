@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { Upload, Image, Grid3x3 } from 'lucide-react'
 
 export default function UploadArea({ onUpload, isLoading }) {
   const [dragOver, setDragOver] = useState(false)
@@ -25,7 +24,7 @@ export default function UploadArea({ onUpload, isLoading }) {
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-          <Upload className="w-4 h-4 text-blue-500" />
+          <span className="text-lg">📤</span>
           上传图片
         </h3>
         <div className="flex gap-2">
@@ -37,7 +36,7 @@ export default function UploadArea({ onUpload, isLoading }) {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <Grid3x3 className="w-4 h-4" />
+            <span>📐</span>
             横屏
           </button>
           <button
@@ -48,7 +47,7 @@ export default function UploadArea({ onUpload, isLoading }) {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <Image className="w-4 h-4" />
+            <span>📱</span>
             竖屏
           </button>
         </div>
@@ -65,7 +64,7 @@ export default function UploadArea({ onUpload, isLoading }) {
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
       >
-        <Upload className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+        <span className="text-4xl text-gray-400 mb-3 block">📤</span>
         <p className="text-gray-600 mb-1">点击或拖拽图片到此处上传</p>
         <p className="text-xs text-gray-400">支持 JPG、PNG、WebP、GIF | 大图自动压缩</p>
         <p className="text-xs text-blue-500 mt-2">
